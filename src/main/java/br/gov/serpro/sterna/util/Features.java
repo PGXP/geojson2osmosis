@@ -2,13 +2,14 @@ package br.gov.serpro.sterna.util;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import static java.util.Collections.unmodifiableList;
 import java.util.List;
 import java.util.logging.Logger;
 import static java.util.logging.Logger.getLogger;
 
 /**
  *
- * @author 70744416353
+ * @author SERPRO
  */
 public class Features {
 
@@ -38,7 +39,7 @@ public class Features {
      * @return
      */
     public List<Feature> getFeatures() {
-        return Collections.unmodifiableList(features);
+        return unmodifiableList(features);
     }
 
     /**

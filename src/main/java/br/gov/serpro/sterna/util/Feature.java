@@ -1,19 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package br.gov.serpro.sterna.util;
 
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 import static java.util.logging.Logger.getLogger;
 
 /**
  *
- * @author 70744416353
+ * @author SERPRO
  */
 public class Feature {
 
@@ -25,42 +20,82 @@ public class Feature {
     private String id;
     private String signature;
 
+    /**
+     *
+     * @return
+     */
     public String getType() {
         return type;
     }
 
+    /**
+     *
+     * @param type
+     */
     public void setType(String type) {
         this.type = type;
     }
 
+    /**
+     *
+     * @return
+     */
     public Map<String, String> getProperties() {
-        return properties;
+        return Collections.unmodifiableMap(properties);
     }
 
+    /**
+     *
+     * @param properties
+     */
     public void setProperties(Map<String, String> properties) {
         this.properties = properties;
     }
 
+    /**
+     *
+     * @return
+     */
     public Point getGeometry() {
         return geometry;
     }
 
+    /**
+     *
+     * @param geometry
+     */
     public void setGeometry(Point geometry) {
         this.geometry = geometry;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id
+     */
     public void setId(String id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getSignature() {
         return signature;
     }
 
+    /**
+     *
+     * @param signature
+     */
     public void setSignature(String signature) {
         this.signature = signature;
     }

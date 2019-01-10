@@ -8,7 +8,7 @@ import static java.util.logging.Logger.getLogger;
 
 /**
  *
- * @author 70744416353
+ * @author SERPRO
  */
 public class Category {
 
@@ -55,7 +55,7 @@ public class Category {
      * @return
      */
     public List getList() {
-        return list;
+        return Collections.unmodifiableList(list);
     }
 
     /**

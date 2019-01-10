@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.gov.serpro.sterna.entity;
 
 import br.gov.serpro.sterna.util.HstoreUserType;
@@ -10,9 +5,9 @@ import com.vividsolutions.jts.geom.Point;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Logger;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,12 +27,12 @@ import org.hibernate.annotations.TypeDef;
 
 /**
  *
- * @author 70744416353
+ * @author SERPRO
  */
 @Entity
 @DynamicInsert
 @DynamicUpdate
-@Table(catalog = "geo", schema = "public")
+@Table
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Nodes.findAll", query = "SELECT n FROM Nodes n"),
@@ -78,14 +73,29 @@ public class Nodes implements Serializable {
     @Column(columnDefinition = "geometry(Point,4326)")
     private Point geom;
 
+    /**
+     *
+     */
     public Nodes() {
         tags = new ConcurrentHashMap<>();
     }
 
+    /**
+     *
+     * @param id
+     */
     public Nodes(Long id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @param id
+     * @param version
+     * @param userId
+     * @param tstamp
+     * @param changesetId
+     */
     public Nodes(Long id, int version, int userId, Date tstamp, long changesetId) {
         this.id = id;
         this.version = version;
@@ -94,66 +104,127 @@ public class Nodes implements Serializable {
         this.changesetId = changesetId;
     }
 
+    /**
+     *
+     * @return
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getVersion() {
         return version;
     }
 
+    /**
+     *
+     * @param version
+     */
     public void setVersion(int version) {
         this.version = version;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getUserId() {
         return userId;
     }
 
+    /**
+     *
+     * @param userId
+     */
     public void setUserId(int userId) {
         this.userId = userId;
     }
 
+    /**
+     *
+     * @return
+     */
     public Date getTstamp() {
         return tstamp;
     }
 
+    /**
+     *
+     * @param tstamp
+     */
     public void setTstamp(Date tstamp) {
         this.tstamp = tstamp;
     }
 
+    /**
+     *
+     * @return
+     */
     public long getChangesetId() {
         return changesetId;
     }
 
+    /**
+     *
+     * @param changesetId
+     */
     public void setChangesetId(long changesetId) {
         this.changesetId = changesetId;
     }
 
+    /**
+     *
+     * @return
+     */
     public Map<String, String> getTags() {
-        return tags;
+        return Collections.unmodifiableMap(tags);
     }
 
+    /**
+     *
+     * @param tags
+     */
     public void setTags(Map<String, String> tags) {
         this.tags = tags;
     }
 
+    /**
+     *
+     * @param grupo
+     * @param tipo
+     */
     public void setTags(String grupo, String tipo) {
         if (tipo == null) {
-            this.tags.putIfAbsent(grupo, "S/N");
+            this.tags.putIfAbsent(grupo.toLowerCase(), "sn");
         } else {
-            this.tags.putIfAbsent(grupo, tipo.replace("\"", "&quot;"));
+            this.tags.putIfAbsent(grupo.toLowerCase(), tipo.replace("\"", "&quot;").toLowerCase());
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public Point getGeom() {
         return geom;
     }
 
+    /**
+     *
+     * @param geom
+     */
     public void setGeom(Point geom) {
         this.geom = geom;
     }
@@ -172,15 +243,13 @@ public class Nodes implements Serializable {
             return false;
         }
         Nodes other = (Nodes) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 
     @Override
     public String toString() {
         return "Nodes{" + "id=" + id + ", version=" + version + ", userId=" + userId + ", tstamp=" + tstamp + ", changesetId=" + changesetId + ", tags=" + tags + ", geom=" + geom + '}';
     }
+    private static final Logger LOG = Logger.getLogger(Nodes.class.getName());
 
 }

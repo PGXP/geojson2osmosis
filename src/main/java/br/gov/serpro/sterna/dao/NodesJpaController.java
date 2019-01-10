@@ -12,32 +12,53 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.Persistence;
+import static javax.persistence.Persistence.createEntityManagerFactory;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-/**
- *
- * @author 70744416353
- */
-public class NodesJpaController implements Serializable {
 
+public class NodesJpaController implements Serializable {
+    private EntityManagerFactory emf = null;
+
+    /**
+     *
+     */
     public NodesJpaController() {
-        emf = Persistence.createEntityManagerFactory("sternaPU");
+        emf = createEntityManagerFactory("sternaPU");
     }
 
+    /**
+     *
+     * @param emf
+     */
     public NodesJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
 
-    private EntityManagerFactory emf = null;
+    /**
+     *
+     */
+    public void shutdown() {
+        emf.close();
+    }
 
+    /**
+     *
+     * @return
+     */
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
+    /**
+     *
+     * @param nodes
+     * @throws PreexistingEntityException
+     * @throws Exception
+     */
     public void create(Nodes nodes) throws PreexistingEntityException, Exception {
         EntityManager em = null;
         try {
@@ -57,6 +78,12 @@ public class NodesJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param nodes
+     * @throws NonexistentEntityException
+     * @throws Exception
+     */
     public void edit(Nodes nodes) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
@@ -80,6 +107,11 @@ public class NodesJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @throws NonexistentEntityException
+     */
     public void destroy(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
@@ -101,10 +133,20 @@ public class NodesJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Nodes> findNodesEntities() {
         return findNodesEntities(true, -1, -1);
     }
 
+    /**
+     *
+     * @param maxResults
+     * @param firstResult
+     * @return
+     */
     public List<Nodes> findNodesEntities(int maxResults, int firstResult) {
         return findNodesEntities(false, maxResults, firstResult);
     }
@@ -125,6 +167,11 @@ public class NodesJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public Nodes findNodes(Long id) {
         EntityManager em = getEntityManager();
         try {
@@ -134,6 +181,10 @@ public class NodesJpaController implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public int getNodesCount() {
         EntityManager em = getEntityManager();
         try {
@@ -141,7 +192,7 @@ public class NodesJpaController implements Serializable {
             Root<Nodes> rt = cq.from(Nodes.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
-            return ((Long) q.getSingleResult()).intValue();
+            return ((Number) q.getSingleResult()).intValue();
         } finally {
             em.close();
         }
