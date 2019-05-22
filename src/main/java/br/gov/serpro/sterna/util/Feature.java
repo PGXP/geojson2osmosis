@@ -1,7 +1,6 @@
 
 package br.gov.serpro.sterna.util;
 
-import java.util.Collections;
 import java.util.Map;
 import java.util.logging.Logger;
 import static java.util.logging.Logger.getLogger;
@@ -41,7 +40,7 @@ public class Feature {
      * @return
      */
     public Map<String, String> getProperties() {
-        return Collections.unmodifiableMap(properties);
+        return properties;
     }
 
     /**

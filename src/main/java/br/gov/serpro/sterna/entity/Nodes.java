@@ -189,7 +189,7 @@ public class Nodes implements Serializable {
      * @return
      */
     public Map<String, String> getTags() {
-        return Collections.unmodifiableMap(tags);
+        return tags;
     }
 
     /**
